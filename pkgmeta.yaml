@@ -1,0 +1,8 @@
+--- #VocalCombat - File Packaging Configuration for Curse.com
+package-as: VocalCombat
+enable-nolib-creation: no
+ignore:
+	- .gitignore
+manual-changelog:
+	filename: CHANGELOG.md
+	markup-type: markdown
