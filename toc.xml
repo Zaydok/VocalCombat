@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Addon Author="Zaydok" APIVersion="9" Name="VocalCombat" Description="Let those around you know when you've done something that benefits the group." Version="0.0.2-alpha">
+<Addon Author="Zaydok" APIVersion="9" Name="VocalCombat" Description="Let your group know about important combat events via the chat interface!" Version="0.0.2-alpha">
 	<Script Name="VocalCombat.lua"/>
 </Addon>
