@@ -1,6 +1,6 @@
 --[[---------------------------------------------------------------------------
 -------------------------------------------------------------------------------
-# VocalCombat v0.0.2-alpha                                                    #
+# VocalCombat v0.0.3-alpha                                                    #
 # Author: Zaydok                                                              #
 # Last Modified: July 30th, 2014                                              #
 -------------------------------------------------------------------------------
@@ -31,6 +31,7 @@ function VocalCombat:new( AddOn )
 	-- Initialization variables here
 	self.isUIHidden = true
 	self.playerUnit = {}
+	self.goodCastResults = {}
 	-- Return instance of AddOn class
 	return AddOn
 end
@@ -76,16 +77,42 @@ function VocalCombat:OnCombatLogInterrupted( interrupt )
 	local target = interrupt.unitTarget
 	local targetSpell = interrupt.splCallingSpell
 	local interruptingSpell = interrupt.splInterruptingSpell
-	-- Filter all other interrupts not cast by player on target other than self
-	if target:GetName() == self.playerUnit:GetName() then return end
-	-- Filter spell cancels
-	if interruptingSpell.strCastResult == 'Spell was cancelled' then return end
-	-- If legitimate interrupt
-	if caster:GetName() == self.playerUnit:GetName() then
-		-- Vocalize interrupt via chat
-		ChatSystemLib.PostOnChannel( ChatSystemLib.ChatChannel_Say, 'Interrupted [IA Max = ' .. target:GetInterruptArmorMax() .. '] ' ..target:GetName() .. '\'s ' .. targetSpell:GetName() .. '!', '' )
-		-- Vocalize remaining interrupt CD's via chat
+	-- Make sure player unit info is available
+	if self.playerUnit == {} then
+		-- Get playerUnit
+		self.playerUnit = GameLib.GetPlayerUnit()
 	end
+	-- Filter interrupt events where the player and target are the same
+	if target:GetName() == self.playerUnit:GetName() then return end
+	-- If cast result is good
+	if VocalCombat:IsGoodCastResult( interrupt.eCastResult ) then
+		-- Filter interrupt notifications to those where the player was the caster
+		if caster:GetName() == self.playerUnit:GetName() then
+			-- Vocalize interrupt via chat
+			ChatSystemLib.PostOnChannel( ChatSystemLib.ChatChannel_Say, 'Interrupted [IA Max = ' .. target:GetInterruptArmorMax() .. '] ' ..target:GetName() .. '\'s ' .. targetSpell:GetName() .. '!', '' )
+		end
+	else -- Cast result not worthy of notification, spell cancel, etc.
+		return
+	end
+end
+
+-- Cast result helper function
+function VocalCombat:IsGoodCastResult( resultCode )
+	-- Populate table with good cast result codes
+	self.goodCastResults = {
+		36 -- 'You are Stunned'
+	}
+	-- Loop through good cast results to see if current result code is one
+	do
+		local i = 1
+		while i <= #self.goodCastResults do
+			if resultCode == self.goodCastResults[ i ] then
+				return true
+			end
+			i = i + 1
+		end
+	end
+	return false
 end
 
 -- Create instance of VocalCombat and initialize it
