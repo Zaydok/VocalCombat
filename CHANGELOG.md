@@ -2,6 +2,6 @@
 
 ###Changelog
 
-####0.0.3-alpha - 8/1/14
+####0.0.4-alpha - 8/4/14
 ---
 - Initial alpha release
