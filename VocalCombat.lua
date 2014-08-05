@@ -1,8 +1,8 @@
 --[[---------------------------------------------------------------------------
 -------------------------------------------------------------------------------
-# VocalCombat v0.0.3-alpha                                                    #
+# VocalCombat v0.0.4-alpha                                                    #
 # Author: Zaydok                                                              #
-# Last Modified: July 30th, 2014                                              #
+# Last Modified: August 4th, 2014                                             #
 -------------------------------------------------------------------------------
 --]]---------------------------------------------------------------------------
 
@@ -55,7 +55,7 @@ function VocalCombat:OnLoad()
 	-- self.windowMain = Apollo.LoadForm( 'VocalCombat.xml', 'VocalCombatUI', nil, self )
 	-- self.windowMain:Show( false )
 	-- Display successfully loaded message to system chat
-	ChatSystemLib.PostOnChannel( ChatSystemLib.ChatChannel_System, 'VocalCombat v0.0.1a loaded successfully! You\'re a vocal beast!', '' )
+	ChatSystemLib.PostOnChannel( ChatSystemLib.ChatChannel_System, 'VocalCombat v0.0.4-alpha loaded successfully! You\'re a vocal beast!', '' )
 	-- Get playerUnit
 	self.playerUnit = GameLib.GetPlayerUnit()
 end
